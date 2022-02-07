@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@microsoft/teams-js": "^1.11.0"
+  }
+}
