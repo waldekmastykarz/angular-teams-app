@@ -1,24 +1,16 @@
-// - Update Teams package .zip file
-// `zip -j angular-teams.zip package/*`
-// - Update the Teams app
-
-// ```sh
-// appId=$(m365 teams app list --query "[?externalId == '933b8170-ad4c-421f-b2ca-a80f2685ef08'] | [0].id")
-// m365 teams app update -i $appId -p angular-teams.zip
-// ```
-
 // ---------------------------------------------------------------------------
-// Update manifests files with new appId and public domain.
+// Updates manifest files with new appId and public domain.
 // ---------------------------------------------------------------------------
 
-import path from 'path';
-import fs from 'fs';
-import pkg from '../package.json';
+const path = require('path');
+const fs = require('fs');
+const process = require('process');
+const pkg = require('../package.json');
 
 const aadManifestPath = path.join(__dirname, '../aad-app-manifest.json');
 const manifestPath = path.join(__dirname, '../package/manifest.json');
-const m365rcPath = path.join(__dirname, '../.m365rc');
-const usage = `Usage: node ${process.argv[1]} <public_domain>`;
+const m365rcPath = path.join(__dirname, '../.m365rc.json');
+const usage = `Usage: node ${path.basename(process.argv[1])} <public_domain>`;
 
 run();
 
@@ -27,7 +19,7 @@ run();
 function run() {
   const args = process.argv.slice(2);
 
-  if (args.length !== 0 || (!args[0] && !process.env.PUBLIC_DOMAIN)) {
+  if (args.length === 0 || (!args[0] && !process.env.PUBLIC_DOMAIN)) {
     console.error(usage);
     process.exit(-1);
   }
@@ -39,7 +31,7 @@ function run() {
 function updateManifests(publicDomain) {
   const appId = getAppId(); 
   updateManifest(appId, publicDomain);
-  updateAadManifest(publicDomain);
+  updateAadManifest(appId, publicDomain);
   console.log('Done!');
 }
 
@@ -53,7 +45,7 @@ function updateAadManifest(appId, publicDomain) {
   const aadManifest = JSON.parse(aadManifestContents);
   aadManifest.appId = appId;
   aadManifest.identifierUris = [`api://${publicDomain}/${appId}`];
-  aadManifest.replyUrls[1].url = `https://${publicDomain}/auth`;
+  aadManifest.replyUrlsWithType[1].url = `https://${publicDomain}/auth`;
 
   fs.writeFileSync(aadManifestPath, JSON.stringify(aadManifest, null, 2));
 }
@@ -70,7 +62,7 @@ function updateManifest(appId, publicDomain) {
   manifest.version = pkg.version;
   manifest.webApplicationInfo.id = appId;
   manifest.webApplicationInfo.resource = `api://${publicDomain}/${appId}`;
-  manifest.staticTabs[0].contentUrl = `https://${publicDomain}/`;
+  manifest.staticTabs[0].contentUrl = `https://${publicDomain}`;
 
   fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
 }
@@ -82,5 +74,5 @@ function getAppId() {
   }
 
   const rc = JSON.parse(m365rcContents);
-  return rc.apps[0].id;
+  return rc.apps[0].appId;
 }
