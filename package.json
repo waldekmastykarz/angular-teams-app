@@ -1,6 +1,6 @@
 {
   "name": "teams-app",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "ng": "ng",
@@ -9,12 +9,14 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "tunnel": "npx localtunnel --port 4200 --subdomain 123456",
-    "update-manifest": "node scripts/update-manifest.js 123456.loca.lt",
+    "tunnel": "npx localtunnel --port 4200 --subdomain myuniquedomain",
+    "update:manifest": "node scripts/update-manifest.js myuniquedomain.loca.lt",
+    "update:teams-app": "node scripts/update-teams-app.js ",
     "m365:login": "m365 login",
     "m365:create-aad-app": "m365 aad app add --manifest @aad-app-manifest.json --save",
-    "m365:package": "npm run update-manifest -s && cd package && npx bestzip \"../angular-teams.zip\" \"*\"",
-    "m365:publish": "npm run m365:package -s && m365 teams app publish -p angular-teams.zip"
+    "m365:package": "npm run update:manifest -s && cd package && npx bestzip \"../angular-teams.zip\" \"*\"",
+    "m365:publish": "npm run m365:package -s && m365 teams app publish -p angular-teams.zip",
+    "m365:update": "npm run m365:package -s && npm run update:teams-app -s"
   },
   "dependencies": {
     "@angular/animations": "~13.2.0",
@@ -37,6 +39,7 @@
     "@pnp/cli-microsoft365": "^4.4.0",
     "@types/jasmine": "~3.10.0",
     "@types/node": "^12.11.1",
+    "bestzip": "^2.2.0",
     "concurrently": "^7.0.0",
     "jasmine-core": "~4.0.0",
     "karma": "~6.3.0",
