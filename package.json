@@ -5,11 +5,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "start:tunnel": "concurrently --kill-others \"npm:start\" \"npm:tunnel\"",
+    "start:tunnel": "concurrently --kill-others \"npm:tunnel\" \"npm:start\"",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "tunnel": "npx localtunnel --port 4200 --subdomain myuniquedomain",
+    "tunnel": "lt --local-host localhost --port 4200 --subdomain myuniquedomain",
     "update:manifest": "node scripts/update-manifest.js myuniquedomain.loca.lt",
     "update:teams-app": "node scripts/update-teams-app.js ",
     "m365:login": "m365 login",
@@ -28,6 +28,7 @@
     "@angular/platform-browser-dynamic": "~13.2.0",
     "@angular/router": "~13.2.0",
     "@azure/msal-angular": "^2.1.0",
+    "@microsoft/teams-js": "^1.11.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
