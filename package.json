@@ -1,5 +1,54 @@
 {
+  "name": "teams-app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "start:tunnel": "concurrently --kill-others \"npm:tunnel\" \"npm:start\"",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "tunnel": "lt --local-host localhost --port 4200 --subdomain myuniquedomain",
+    "update:manifest": "node scripts/update-manifest.js myuniquedomain.loca.lt",
+    "update:teams-app": "node scripts/update-teams-app.js ",
+    "m365:login": "m365 login",
+    "m365:create-aad-app": "m365 aad app add --manifest @aad-app-manifest.json --save",
+    "m365:package": "npm run update:manifest -s && cd package && npx bestzip \"../angular-teams.zip\" \"*\"",
+    "m365:publish": "npm run m365:package -s && m365 teams app publish -p angular-teams.zip",
+    "m365:update": "npm run m365:package -s && npm run update:teams-app -s"
+  },
   "dependencies": {
-    "@microsoft/teams-js": "^1.11.0"
+    "@angular/animations": "~13.2.0",
+    "@angular/common": "~13.2.0",
+    "@angular/compiler": "~13.2.0",
+    "@angular/core": "~13.2.0",
+    "@angular/forms": "~13.2.0",
+    "@angular/platform-browser": "~13.2.0",
+    "@angular/platform-browser-dynamic": "~13.2.0",
+    "@angular/router": "~13.2.0",
+    "@azure/msal-angular": "^2.1.0",
+    "@microsoft/teams-js": "^1.11.0",
+    "rxjs": "~7.5.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.11.4"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "~13.2.2",
+    "@angular/cli": "~13.2.2",
+    "@angular/compiler-cli": "~13.2.0",
+    "@pnp/cli-microsoft365": "^4.4.0",
+    "@types/jasmine": "~3.10.0",
+    "@types/node": "^12.11.1",
+    "bestzip": "^2.2.0",
+    "concurrently": "^7.0.0",
+    "jasmine-core": "~4.0.0",
+    "karma": "~6.3.0",
+    "karma-chrome-launcher": "~3.1.0",
+    "karma-coverage": "~2.1.0",
+    "karma-jasmine": "~4.0.0",
+    "karma-jasmine-html-reporter": "~1.7.0",
+    "localtunnel": "^2.0.2",
+    "typescript": "~4.5.2"
   }
 }

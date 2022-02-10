@@ -11,40 +11,22 @@ Contents:
 
 - Prerequisites:
   - [Microsoft 365 developer tenant](https://developer.microsoft.com/microsoft-365/dev-program)
-  - CLI for Microsoft 365: `npm i -g @pnp/cli-microsoft365`
-  - [ngrok](https://ngrok.com/)
-- First time only:
-  - Login to CLI for Microsoft 365:
-    `m365 login`
-  - Create Azure AD app:
-    `m365 aad app add --manifest @aad-app-manifest.json --save`
-  - Create Teams package .zip file
-    `zip -j angular-teams.zip package/*`
-  - Publish app to Teams
-    `m365 teams app publish -p angular-teams.zip`
+
+- First time setup:
+  1. Login to CLI for Microsoft 365: `npm run m365:login`
+  2. Create Azure AD app: `npm run m365:create-aad-app`
+  3. Publish app to Teams: `npm run m365:publish`
+
 - First and subsequent runs:
-  - Start Angular web server:
+  - Start Angular web server: `npm run start:tunnel`
 
-    ```sh
-    cd teams-app
-    ng serve
-    ```
+    This will start a local web server that will serve the app, and create a tunnel to the web server to expose it through a public URL using [localtunnel](https://github.com/localtunnel/localtunnel).
 
-  - Start ngrok:
-    `ngrok http 4200 -host-header="localhost:4200"`
-    **Note the ngrok tunnel URL**
-  - In the `aad-app-manifest.json` file update:
-    - identifierUris to reflect the ngrok URL
-    - reply URL to reflect the ngrok URL  
-  - In the `package/manifest.json` file update:
-    - the `version` property so that you can update the Teams app with new URLs
-    - the `webApplicationInfo.id` property to reference the newly created Azure AD app
-    - the `webApplicationInfo.resource` property to match the ngrok URL
-  - Update Teams package .zip file
-    `zip -j angular-teams.zip package/*`
-  - Update the Teams app
+You need a unique URL for the app to be accessible from the web, therefore you should replace the `myuniquedomain` used in the `tunnel` and `update:manifest` scripts with a unique domain in the scripts section of `package.json`.
 
-    ```sh
-    appId=$(m365 teams app list --query "[?externalId == '933b8170-ad4c-421f-b2ca-a80f2685ef08'] | [0].id")
-    m365 teams app update -i $appId -p angular-teams.zip
-    ```
+### Updating your app
+
+If you update the app or public URL, you need to publish your update:
+
+1. In the `package.json`, bump the version number.
+2. Update the Teams app: `npm run m365:update`
