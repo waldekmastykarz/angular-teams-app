@@ -6,7 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { TeamsGuard } from './teams.guard';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent, canActivate: [TeamsGuard, MsalGuard] },
+  { path: '', component: HomeComponent, canActivate: [TeamsGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'auth', component: MsalRedirectComponent }
 ];

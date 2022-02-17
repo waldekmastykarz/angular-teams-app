@@ -21,7 +21,7 @@ import { HomeComponent } from './home/home.component';
       auth: {
         clientId: 'ff254847-12c7-44cf-921e-8883dbd622a7',
         authority: 'https://login.microsoftonline.com/M365x61791022.onmicrosoft.com',
-        redirectUri: 'https://244e-2001-1c00-80c-d00-e5da-977c-7c52-5193.ngrok.io/auth',
+        redirectUri: 'https://myuniquedomain.loca.lt/auth',
       },
       cache: {
         cacheLocation: BrowserCacheLocation.LocalStorage,

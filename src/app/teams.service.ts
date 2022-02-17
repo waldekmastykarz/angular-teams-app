@@ -7,35 +7,38 @@ import * as microsoftTeams from "@microsoft/teams-js";
 export class TeamsService {
   private teamsContext?: microsoftTeams.Context | null;
 
-  constructor() { }
+  // from https://github.com/wictorwilen/msteams-react-base-component/blob/c3d941e3467365c23d8e8f4f2c067c4b0eb6a032/src/useTeams.ts#L10
+  private checkInTeams() {
+    // eslint-disable-next-line dot-notation
+    const microsoftTeamsLib = microsoftTeams || window["microsoftTeams"];
 
-  async getTeamsContext() {
-    if (this.teamsContext !== undefined) {
-      return this.teamsContext;
+    if (!microsoftTeamsLib) {
+      return false; // the Microsoft Teams library is for some reason not loaded
     }
 
-    const teamsContext = await Promise.race<microsoftTeams.Context | null>([
-      // If we're in Teams, the context will be returned
-      new Promise((resolve) => {
-        microsoftTeams.initialize(() => {
-          microsoftTeams.getContext((context) => {
-            resolve(context);
-          });
-        });
-      }),
-      // If we're not in Teams, the Teams SDK calls never return.
-      // This timeout will resolve the promise and return null.
-      new Promise((resolve) => {
-        setTimeout(() => resolve(null), 100);
-      })
-    ]);
-
-    this.teamsContext = teamsContext;
-    return teamsContext;
+    if ((window.parent === window.self && (window as any).nativeInterface) ||
+      window.navigator.userAgent.includes("Teams/") ||
+      window.name === "embedded-page-container" ||
+      window.name === "extension-tab-frame") {
+      return true;
+    }
+    return false;
   }
 
   async inTeams() {
-    const teamsContext = await this.getTeamsContext();
-    return teamsContext !== null;
+    return new Promise<boolean>((resolve) => {
+      if (this.checkInTeams()) {
+        microsoftTeams.initialize(() => {
+          microsoftTeams.getContext((context) => {
+            this.teamsContext = context;
+            resolve(true);
+          });
+        });
+      }
+      else {
+        microsoftTeams.initialize();
+        resolve(false);
+      }
+    });
   }
 }
