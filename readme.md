@@ -4,7 +4,8 @@ Boilerplate Teams app with SSO built using Angular.
 
 Contents:
 
-- **teams-app**: Angular app
+- **src**: Angular app
+- **api**: test API to verify that the Angular app can call APIs secured with AAD
 - **package**: files for the Teams app package. Package the **contents** (not the whole folder) in a .zip file
 
 ## Minimal Path to Awesome
