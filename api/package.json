@@ -1,16 +1,13 @@
 {
   "name": "api",
   "version": "1.0.0",
-  "description": "",
+  "description": "Test API to verify that the Angular app can call APIs secured with AAD",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "start:tunnel": "concurrently --kill-others \"npm:tunnel\" \"npm:start\"",
     "tunnel": "lt --local-host localhost --port 4201 --subdomain myuniquedomain-api"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "express": "^4.17.3",
     "passport": "^0.5.2",
