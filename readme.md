@@ -84,7 +84,7 @@ Prerequisites:
 - A [GitHub account](https://github.com/join)
 - An [Azure account](https://azure.microsoft.com/free/?WT.mc_id=javascript-0000-cxa) (you can reuse your GitHub account to login)
 
-1. Click on this button to open the Azure portal: [![Deploy to Azure button](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/?feature.customportal=false&WT.mc_id=javascript-0000-cxa#create/Microsoft.StaticApp)
+1. Click on this button to open the Azure portal:<br> [![Deploy to Azure button](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/?feature.customportal=false&WT.mc_id=javascript-0000-cxa#create/Microsoft.StaticApp)
 2. Fill in the details (you don't need to change what's not mentioned):
   - **Resource Group:** Select **Create new** and type in `angular-teams-app`
   - **Name:** Type in `angular-teams-app`
