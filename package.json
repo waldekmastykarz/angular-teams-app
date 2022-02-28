@@ -13,7 +13,7 @@
     "update:manifest": "node scripts/update-manifest.js myuniquedomain.loca.lt",
     "update:teams-app": "node scripts/update-teams-app.js ",
     "m365:login": "m365 login",
-    "m365:create-aad-app": "m365 aad app add --manifest @aad-app-manifest.json --save",
+    "m365:create-aad-app": "m365 aad app add --manifest @aad-app-manifest.json --uri \"api://myuniquedomain.loca.lt/_appId_\" --save",
     "m365:package": "npm run update:manifest -s && cd package && npx bestzip \"../angular-teams.zip\" \"*\"",
     "m365:publish": "npm run m365:package -s && m365 teams app publish -p angular-teams.zip",
     "m365:update": "npm run m365:package -s && npm run update:teams-app -s"
@@ -38,7 +38,7 @@
     "@angular-devkit/build-angular": "~13.2.2",
     "@angular/cli": "~13.2.2",
     "@angular/compiler-cli": "~13.2.0",
-    "@pnp/cli-microsoft365": "^4.4.0",
+    "@pnp/cli-microsoft365": "^5.0.0",
     "@types/jasmine": "~3.10.0",
     "@types/node": "^12.11.1",
     "bestzip": "^2.2.0",

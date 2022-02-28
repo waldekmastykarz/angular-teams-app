@@ -41,3 +41,6 @@ angular-teams.zip
 # System files
 .DS_Store
 Thumbs.db
+
+# Per-dev files
+.m365rc.json
