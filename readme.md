@@ -69,7 +69,7 @@ When you are ready to deploy your app to production, there are two main steps ne
 
 ### Step 2: Deploying your Teams app
 
-1. Set you production URL with `node scripts/update-manifest.js <production_url>`
+1. Set your production URL with `node scripts/update-manifest.js <production_url>`
 1. Login to CLI for Microsoft 365 onto the production tenant: `npm run m365:login`
 1. Create the Azure Active Directory (AAD) app: `npm run m365:create-aad-app`
 1. Publish app to Teams: `npm run m365:publish`
